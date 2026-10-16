@@ -11,7 +11,7 @@
 <br/><br/>
 
 <!-- Live status badges -->
-![CI](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/PranavRoy07/-QA-Test-Suite/actions/workflows/ci.yml/badge.svg)
 ![Python](https://img.shields.io/badge/python-3.12-3776AB?logo=python&logoColor=white)
 ![Playwright](https://img.shields.io/badge/Playwright-1.47-2EAD33?logo=playwright&logoColor=white)
 ![pytest](https://img.shields.io/badge/pytest-8.3-0A9EDC?logo=pytest&logoColor=white)
@@ -27,7 +27,7 @@ target applications.
 
 </div>
 
-> ⚠️ **One-time setup:** replace `YOUR_USERNAME/YOUR_REPO` in the CI badge
+> ⚠️ **One-time setup:** replace `PranavRoy07/-QA-Test-Suite` in the CI badge
 > URL at the top of this file (and in the clone command further down) with
 > your actual GitHub path once pushed — that's what turns the badge from a
 > placeholder into a live, auto-updating one.
@@ -236,8 +236,8 @@ that the API contract assertions aren't pytest-specific quirks.
 
 ```bash
 # 1. Clone and enter the project
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
+git clone https://github.com/PranavRoy07/-QA-Test-Suite.git
+cd ./-QA-Test-Suite
 
 # 2. Create and activate a virtual environment
 python -m venv .venv
