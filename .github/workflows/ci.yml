@@ -1,0 +1,95 @@
+name: QA Test Suite CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  ui-tests:
+    name: UI Tests (Playwright + pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        working-directory: ui-tests
+        run: |
+          pip install -r ../requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Run UI tests
+        working-directory: ui-tests
+        env:
+          HEADLESS: "true"
+        run: |
+          pytest --html=report.html --self-contained-html --junitxml=results.xml
+
+      - name: Upload UI test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-test-report
+          path: |
+            ui-tests/report.html
+            ui-tests/results.xml
+
+  api-tests:
+    name: API Tests (pytest + requests)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        working-directory: api-tests
+        run: pip install -r ../requirements.txt
+
+      - name: Run API tests
+        working-directory: api-tests
+        run: |
+          pytest --html=report.html --self-contained-html --junitxml=results.xml
+
+      - name: Upload API test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-test-report
+          path: |
+            api-tests/report.html
+            api-tests/results.xml
+
+  newman:
+    name: Postman Collection (Newman)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Run Postman collection
+        run: |
+          newman run postman/DummyJSON.postman_collection.json --reporters cli,junit --reporter-junit-export postman/newman-results.xml
+
+      - name: Upload Newman report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-report
+          path: postman/newman-results.xml
